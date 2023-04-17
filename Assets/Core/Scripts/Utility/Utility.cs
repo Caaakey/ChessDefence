@@ -87,6 +87,8 @@ namespace YMSoft.Core
         private float _currentTime = 0;
         private float _waitTime = 0;
 
+        public bool IsPause { get; set; } = false;
+
         public float WaitTime
         {
             get => _waitTime;
@@ -99,6 +101,7 @@ namespace YMSoft.Core
 
         public bool IsWait()
         {
+            if (IsPause) return true;
             if (_currentTime >= _waitTime)
                 return false;
 

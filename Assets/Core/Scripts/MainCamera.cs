@@ -1,13 +1,17 @@
 using UnityEngine;
 
-public class MainCamera : MonoBehaviour
+namespace YMSoft.Core
 {
-    private Camera _Camera;
-
-    private void Awake()
+    public class MainCamera : DynamicMonoInstance<MainCamera>
     {
-        _Camera = GetComponent<Camera>();
+        private void Awake()
+        {
+            _camera = GetComponent<Camera>();
+        }
+
+        private Camera _camera;
+
+        public Camera GetCamera => _camera;
+
     }
-
-
 }

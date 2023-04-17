@@ -1,33 +1,28 @@
 using UnityEngine;
+using YMSoft.Core.Pawns;
 
 namespace YMSoft.Core
 {
-    public class BaseTile : MonoBehaviour, ISelectableObject
+    public class BaseTile : MonoBehaviour
     {
-        private void Awake()
+        private BasePawn _child = null;
+
+        public BasePawn Child => _child;
+
+        public void CreateChild(BasePawn prefab)
         {
-            _Collider = GetComponent<Collider>();
+            BasePawn p = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
+            p.transform.localPosition = new Vector3(0, 0.5f, 0);
+
+            _child = p;
         }
 
-        private Collider _Collider;
-        private GameObject _ChildObject = null;
-        private bool _isSelected = false;
-
-        public bool IsSelected => _isSelected;
-
-        public void OnStartSelect()
+        public void DestroyChild()
         {
-            
+            if (_child == null) return;
+
+            Destroy(_child);
         }
 
-        public void OnSelected()
-        {
-            
-        }
-
-        public void OnEndSelect()
-        {
-            
-        }
     }
 }

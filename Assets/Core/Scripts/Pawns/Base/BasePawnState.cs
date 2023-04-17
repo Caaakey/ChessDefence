@@ -22,9 +22,22 @@ namespace YMSoft.Core.Pawns
 
         public virtual bool OnHit(float damage)
         {
+            if (_healthPoint > 0)
+            {
+                _healthPoint -= damage;
+
+                if (_healthPoint <= 0)
+                {
+                    OnDeath();
+
+                    return true;
+                }
+            }
 
             return false;
         }
+
+        public virtual void OnDeath() { }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()

@@ -10,7 +10,7 @@ namespace YMSoft.Core.Pawns
         protected override void OnAttack(Collider[] targets, int count)
         {
             BaseBullet instance = Instantiate(BulletPrefab, ShootStartTransform.position, Quaternion.identity);
-            instance.Create(PawnState, targets[0].GetComponent<BasePawnState>());
+            instance.Create(PawnState, targets[0]);
 
         }
     }

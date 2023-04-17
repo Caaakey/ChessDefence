@@ -6,10 +6,10 @@ namespace YMSoft.Core
 {
     public class BaseBullet : MonoBehaviour, IPawnStatePoint
     {
-        public void Create(IPawnStatePoint data, BasePawnState target)
+        public void Create(IPawnStatePoint data, Collider target)
             => Create(new BulletPointStruct(data), target);
 
-        public void Create(BulletPointStruct data, BasePawnState target)
+        public void Create(BulletPointStruct data, Collider target)
         {
             HealthPoint = data.HealthPoint;
             AttackPoint = data.AttackPoint;
@@ -19,13 +19,15 @@ namespace YMSoft.Core
             RangePoint = data.RangePoint;
 
             _target = target;
+            _targetState = target.GetComponent<BasePawnState>();
             _curve.Create(ShootSpeedPoint, transform);
 
             gameObject.SetActive(true);
         }
 
         [SerializeField] private BasePositionCurve _curve = null;
-        private BasePawnState _target = null;
+        private Collider _target = null;
+        private BasePawnState _targetState = null;
 
         public float HealthPoint { get; private set; }
         public float AttackPoint { get; private set; }
@@ -45,17 +47,17 @@ namespace YMSoft.Core
             }
         }
 
-        protected virtual bool OnMovement(BasePawnState target)
+        protected virtual bool OnMovement(Collider target)
         {
             float3 dir = target.transform.position - transform.position;
             transform.rotation = quaternion.LookRotation(dir, new float3(0, 1, 0));
 
-            return _curve.UpdateTracking(target.transform);
+            return _curve.UpdateTracking(target);
         }
 
         protected virtual void OnHit()
         {
-            _target.OnHit(AttackPoint);
+            _targetState.OnHit(AttackPoint);
 
             Release();
         }
@@ -63,6 +65,8 @@ namespace YMSoft.Core
         protected virtual void Release()
         {
             _target = null;
+            _targetState = null;
+
             gameObject.SetActive(false);
 
             Destroy(gameObject);

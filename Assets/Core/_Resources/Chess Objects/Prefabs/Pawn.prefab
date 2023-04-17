@@ -219,8 +219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthPoint: 100
   _attackPoint: 1
-  _attackaDelayPoint: 0.5
-  _shootSpeedPoint: 0.1
+  _attackaDelayPoint: 1
+  _shootSpeedPoint: 5
   _defensePoint: 0
   _rangePoint: 2.5
 --- !u!114 &2931285700142016368
